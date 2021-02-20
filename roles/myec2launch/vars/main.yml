@@ -1,7 +1,7 @@
 ---
 # vars file for myec2launch
-aws_access_key_: AKIAJQZGJYOD6ZFBYHXQ 
-aws_secret_key_: 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
+aws_access_key_:
+aws_secret_key_: 
 image_: ami-04b1ddd35fd71475a
 instance_type_: t2.micro 
 ec2_region_: ap-south-1
