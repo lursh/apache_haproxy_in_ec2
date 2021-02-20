@@ -1,0 +1,40 @@
+- name: This playbook is for setting up ec2 for frontend server
+  hosts: localhost
+  vars: 
+    tag_: 
+      server: frontend
+    count_: 1
+  roles:
+    - myec2launch 
+- name: This playbook is for setting up ec2 for backend server
+  hosts: localhost
+  vars: 
+    tag_: 
+      server: backend
+    count_: 2
+  roles:
+    - myec2launch 
+- name: This play is for refreshing the inventory
+  hosts: localhost
+  connection: local
+  tasks: 
+    - name: Sleep for 70 seconds and continue with play
+      wait_for: 
+        timeout: 60
+    - meta: refresh_inventory
+- name: This playbook is for setting up Load Balancer's frontend server
+  hosts: tag_server_frontend
+  become: yes
+  connection: ssh
+  remote_user: ec2-user
+  gather_facts: yes
+  roles:
+    - mylb
+- name: This playbook is for setting up Load Balancer's backend server
+  hosts: tag_server_backend
+  become: yes
+  connection: ssh
+  remote_user: ec2-user
+  gather_facts: yes
+  roles:
+    - myapache
